@@ -32,7 +32,7 @@ public class VersionController {
     }
 
     @PostMapping("/version")
-    public ResponseEntity<Version> save(@RequestBody Version version) {
+    public ResponseEntity<Version> create(@RequestBody Version version) {
 
         version.setId_version(null);
 
@@ -60,6 +60,6 @@ public class VersionController {
         versionToModify.setId_version(id);
         versionDao.save(versionToModify);
 
-        return new ResponseEntity<>(versionToModify, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(versionToModify, HttpStatus.OK);
     }
 }

@@ -22,10 +22,10 @@ public class Version {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id_version;
 
-    protected String versionNumber;
+    protected String version_number;
 
-    protected String versionType;
+    protected String version_type;
 
-    protected Date publicationDate;
+    protected Date publication_date;
 
 }

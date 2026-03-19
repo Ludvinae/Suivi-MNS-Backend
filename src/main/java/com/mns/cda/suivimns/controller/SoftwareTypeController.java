@@ -63,6 +63,6 @@ public class SoftwareTypeController {
         typeToUpdate.setId_software_type(id);
         softwareTypeDao.save(typeToUpdate);
 
-        return new ResponseEntity<>(typeToUpdate, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(typeToUpdate, HttpStatus.OK);
     }
 }

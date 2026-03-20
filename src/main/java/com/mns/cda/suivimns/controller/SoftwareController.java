@@ -2,9 +2,12 @@ package com.mns.cda.suivimns.controller;
 
 import com.mns.cda.suivimns.dao.SoftwareDao;
 import com.mns.cda.suivimns.model.Software;
+import com.mns.cda.suivimns.model.groups.OnCreate;
+import com.mns.cda.suivimns.model.groups.OnUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +41,7 @@ public class SoftwareController {
     }
 
     @PostMapping("/software")
-    public ResponseEntity<Software> create(@RequestBody Software software) {
+    public ResponseEntity<Software> create(@RequestBody @Validated(OnCreate.class) Software software) {
         software.setIdSoftware(null);
         softwareDao.save(software);
 
@@ -57,11 +60,19 @@ public class SoftwareController {
     }
 
     @PutMapping("/software/{id}")
-    public ResponseEntity<Software> update(@PathVariable Integer id, @RequestBody Software softwareData) {
+    public ResponseEntity<Software> update(@PathVariable Integer id, @RequestBody @Validated(OnUpdate.class) Software softwareData) {
         Optional<Software> software = softwareDao.findById(id);
 
         if (software.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (softwareData.getName() == null) {
+            softwareData.setName(software.get().getName());
+        }
+
+        if (softwareData.getDescription() == null) {
+            softwareData.setDescription(software.get().getDescription());
         }
 
         softwareData.setIdSoftware(id);

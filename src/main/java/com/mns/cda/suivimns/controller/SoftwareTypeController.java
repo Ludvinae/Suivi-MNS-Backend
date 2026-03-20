@@ -2,9 +2,12 @@ package com.mns.cda.suivimns.controller;
 
 import com.mns.cda.suivimns.dao.SoftwareTypeDao;
 import com.mns.cda.suivimns.model.SoftwareType;
+import com.mns.cda.suivimns.model.groups.OnCreate;
+import com.mns.cda.suivimns.model.groups.OnUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +40,7 @@ public class SoftwareTypeController {
     }
 
     @PostMapping("/software-type")
-    public ResponseEntity<SoftwareType> create(@RequestBody SoftwareType typeToInsert) {
+    public ResponseEntity<SoftwareType> create(@RequestBody @Validated(OnCreate.class) SoftwareType typeToInsert) {
 
         typeToInsert.setIdSoftwareType(null);
         softwareTypeDao.save(typeToInsert);
@@ -59,7 +62,7 @@ public class SoftwareTypeController {
     }
 
     @PutMapping("/software-type/{id}")
-    public ResponseEntity<SoftwareType> update(@PathVariable Integer id, @RequestBody SoftwareType typeToUpdate) {
+    public ResponseEntity<SoftwareType> update(@PathVariable Integer id, @RequestBody @Validated(OnUpdate.class) SoftwareType typeToUpdate) {
         Optional<SoftwareType> softwareType = softwareTypeDao.findById(id);
         if (softwareType.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

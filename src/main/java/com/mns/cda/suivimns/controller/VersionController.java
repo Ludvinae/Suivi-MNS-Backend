@@ -67,6 +67,10 @@ public class VersionController {
         versionToModify.setIdVersion(id);
         versionDao.save(versionToModify);
 
+        if (versionToModify.getPublicationDate() == null) {
+            versionToModify.setPublicationDate(version.get().getPublicationDate());
+        }
+
         return new ResponseEntity<>(versionToModify, HttpStatus.OK);
     }
 }

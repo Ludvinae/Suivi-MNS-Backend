@@ -26,7 +26,5 @@ public class Software {
     protected String name;
 
     // Comment gérer les fields text ?
-    @Column(nullable = false)
-    @NotBlank
     protected String description;
 }

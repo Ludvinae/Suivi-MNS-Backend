@@ -13,8 +13,12 @@ import java.util.Optional;
 @RestController
 public class VersionController {
 
+    protected VersionDao versionDao;
+
     @Autowired
-    private VersionDao versionDao;
+    public VersionController(VersionDao versionDao) {
+        this.versionDao = versionDao;
+    }
 
     @GetMapping("/version/list")
     public List<Version> findAll() {

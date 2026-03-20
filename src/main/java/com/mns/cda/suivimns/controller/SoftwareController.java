@@ -13,8 +13,13 @@ import java.util.Optional;
 @RestController
 public class SoftwareController {
 
-    @Autowired
+
     protected SoftwareDao softwareDao;
+
+    @Autowired
+    public SoftwareController(SoftwareDao softwareDao) {
+        this.softwareDao = softwareDao;
+    }
 
     @GetMapping("/software/list")
     public List<Software> getAll() {
@@ -55,7 +60,7 @@ public class SoftwareController {
     public ResponseEntity<Software> update(@PathVariable Integer id, @RequestBody Software softwareData) {
         Optional<Software> software = softwareDao.findById(id);
 
-        if(software.isEmpty()) {
+        if (software.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

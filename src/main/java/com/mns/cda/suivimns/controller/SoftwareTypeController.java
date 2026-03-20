@@ -13,8 +13,12 @@ import java.util.Optional;
 @RestController
 public class SoftwareTypeController {
 
-    @Autowired
     protected SoftwareTypeDao softwareTypeDao;
+
+    @Autowired
+    public SoftwareTypeController(SoftwareTypeDao softwareTypeDao) {
+        this.softwareTypeDao = softwareTypeDao;
+    }
 
     @GetMapping("/software-type/list")
     public List<SoftwareType> findAll() {

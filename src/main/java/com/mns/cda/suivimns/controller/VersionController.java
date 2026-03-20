@@ -38,7 +38,7 @@ public class VersionController {
     @PostMapping("/version")
     public ResponseEntity<Version> create(@RequestBody Version version) {
 
-        version.setId_version(null);
+        version.setIdVersion(null);
 
         versionDao.save(version);
         return new ResponseEntity<>(version, HttpStatus.CREATED);
@@ -61,7 +61,7 @@ public class VersionController {
         if (version.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        versionToModify.setId_version(id);
+        versionToModify.setIdVersion(id);
         versionDao.save(versionToModify);
 
         return new ResponseEntity<>(versionToModify, HttpStatus.OK);

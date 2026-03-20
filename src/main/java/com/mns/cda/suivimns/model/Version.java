@@ -1,6 +1,5 @@
 package com.mns.cda.suivimns.model;
 
-import com.mns.cda.suivimns.model.groups.OnCreate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,8 +26,7 @@ public class Version {
     @Length(min = 1, max = 63)
     protected String versionNumber;
 
-    @Column(nullable = false)
-    @NotBlank(groups = {OnCreate.class})
+
     protected Date publicationDate;
 
 }

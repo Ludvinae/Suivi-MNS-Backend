@@ -39,7 +39,7 @@ public class SoftwareController {
 
     @PostMapping("/software")
     public ResponseEntity<Software> create(@RequestBody Software software) {
-        software.setId_software(null);
+        software.setIdSoftware(null);
         softwareDao.save(software);
 
         return new ResponseEntity<>(software, HttpStatus.CREATED);
@@ -64,7 +64,7 @@ public class SoftwareController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        softwareData.setId_software(id);
+        softwareData.setIdSoftware(id);
         softwareDao.save(softwareData);
         return new ResponseEntity<>(software.get(), HttpStatus.OK);
     }

@@ -39,7 +39,7 @@ public class SoftwareTypeController {
     @PostMapping("/software-type")
     public ResponseEntity<SoftwareType> create(@RequestBody SoftwareType typeToInsert) {
 
-        typeToInsert.setId_software_type(null);
+        typeToInsert.setIdSoftwareType(null);
         softwareTypeDao.save(typeToInsert);
 
         return new ResponseEntity<>(typeToInsert, HttpStatus.CREATED);
@@ -64,7 +64,7 @@ public class SoftwareTypeController {
         if (softwareType.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        typeToUpdate.setId_software_type(id);
+        typeToUpdate.setIdSoftwareType(id);
         softwareTypeDao.save(typeToUpdate);
 
         return new ResponseEntity<>(typeToUpdate, HttpStatus.OK);

@@ -1,8 +1,10 @@
 package com.mns.cda.suivimns.unit.model;
 
+import com.mns.cda.suivimns.TestUtils;
 import com.mns.cda.suivimns.model.Version;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +22,30 @@ public class VersionUnitTest {
     public void validVersionWithBlankNumber_shouldBeInvalid() {
 
         Version version = new Version();
-        //version.setVersion_number("");
+        version.setVersionNumber("");
+
+        boolean constraintExists = TestUtils.constraintViolationExists(
+                validator.validate(version),
+                "versionNumber",
+                "NotBlank"
+        );
+
+        Assertions.assertTrue(constraintExists, "Version number field must not be blank");
     }
+
+    @Test
+    public void validVersionWithTooLongNumber_shouldBeInvalid() {
+        Version version = new Version();
+        version.setVersionNumber("123456789jjqsdoiqsjdsqjdoiqjsdiuqhdiudizdiudzqui" +
+                "cjwkhckshiuqhiuzudhquhdoizjqoidjziqodjizqjdlksjqdknrjnfrfnsjnvnjnvnd");
+
+        boolean constraintExists = TestUtils.constraintViolationExists(
+                validator.validate(version),
+                "versionNumber",
+                "Length"
+        );
+
+        Assertions.assertTrue(constraintExists, "Version number field must be at maximum 63 characters long");
+    }
+
 }

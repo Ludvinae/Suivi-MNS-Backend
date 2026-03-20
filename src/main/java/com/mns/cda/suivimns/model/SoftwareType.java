@@ -1,13 +1,12 @@
 package com.mns.cda.suivimns.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
@@ -20,6 +19,9 @@ public class SoftwareType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id_software_type;
 
+    @Column(nullable = false, length = 127)
+    @NotBlank
+    @Length(min = 3, max = 127)
     protected String designation;
 
 }

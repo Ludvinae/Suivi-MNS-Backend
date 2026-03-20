@@ -1,13 +1,13 @@
 package com.mns.cda.suivimns.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.mns.cda.suivimns.model.groups.OnCreate;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
@@ -20,7 +20,13 @@ public class Software {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id_software;
 
+    @Column(nullable = false, length = 127)
+    @NotBlank(groups = {OnCreate.class})
+    @Length(min = 1, max = 127)
     protected String name;
 
+    // Comment gérer les fields text ?
+    @Column(nullable = false)
+    @NotBlank
     protected String description;
 }

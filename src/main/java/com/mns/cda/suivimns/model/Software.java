@@ -18,7 +18,7 @@ public class Software {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id_software;
+    protected Integer idSoftware;
 
     @Column(nullable = false, length = 127)
     @NotBlank(groups = {OnCreate.class})

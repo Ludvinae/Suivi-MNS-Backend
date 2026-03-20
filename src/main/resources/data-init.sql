@@ -8,6 +8,6 @@ VALUES ('Pexel', 'Best spreadsheet software on the market'),
        ('Wise', 'Easy to use accountancy manager');
 
 
-INSERT INTO version (version_number, version_type, publication_date)
+INSERT INTO version (version_number, publication_date)
 VALUES ('1.0', '2011-11-11 14:30:00'),
        ('0.6.3', '2026-01-01 22:00:00');

@@ -17,7 +17,7 @@ public class SoftwareType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id_software_type;
+    protected Integer idSoftwareType;
 
     @Column(nullable = false, length = 127)
     @NotBlank

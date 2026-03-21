@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.catalina.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,10 +26,17 @@ public class History {
     protected Integer idHistory;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    @NotBlank(groups = {OnCreate.class})
+    @Column(updatable = false)
     protected LocalDateTime startDate;
 
     @UpdateTimestamp
     protected LocalDateTime endDate;
+
+    @ManyToOne
+    @JoinColumn(name = "id_status")
+    protected Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ticket")
+    protected Ticket ticket;
 }

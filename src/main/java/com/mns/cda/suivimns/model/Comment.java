@@ -34,4 +34,17 @@ public class Comment {
 
     @UpdateTimestamp
     protected LocalDateTime lastModification;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ticket")
+    protected Ticket ticket;
+
+    @ManyToOne
+    @JoinColumn(name = "id_employee")
+    protected Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "id_client")
+    protected Client client;
+
 }

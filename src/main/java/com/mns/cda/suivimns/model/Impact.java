@@ -25,7 +25,8 @@ public class Impact {
     @Length(max = 63)
     protected String designation;
 
-    protected Integer priorityFactor;
+    @Length(max = 3)
+    protected Byte priorityFactor;
 
     @Column(columnDefinition = "TEXT")
     protected String description;

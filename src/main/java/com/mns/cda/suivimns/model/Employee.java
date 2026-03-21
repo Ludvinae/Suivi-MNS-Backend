@@ -45,4 +45,8 @@ public class Employee {
     @NotBlank(groups = {OnCreate.class})
     @Length(max = 127)
     protected String password;
+
+    @ManyToOne
+    @JoinColumn(name = "id_role")
+    protected Role role;
 }

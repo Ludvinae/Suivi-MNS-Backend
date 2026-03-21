@@ -2,6 +2,7 @@ package com.mns.cda.suivimns.mock;
 
 import com.mns.cda.suivimns.dao.SoftwareDao;
 import com.mns.cda.suivimns.model.Software;
+import com.mns.cda.suivimns.model.SoftwareType;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -105,7 +106,7 @@ public class MockSoftwareDao implements SoftwareDao {
 
     @Override
     public Optional<Software> findById(Integer id) {
-        if (id == 1) return Optional.of(new Software(1, "TestSoft", "this is exclusively  for testing purpose"));
+        if (id == 1) return Optional.of(new Software(1, "TestSoft", "this is exclusively  for testing purpose", new SoftwareType(11, "mock type")));
 
         return Optional.empty();
     }

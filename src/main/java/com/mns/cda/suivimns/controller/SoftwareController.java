@@ -75,6 +75,10 @@ public class SoftwareController {
             softwareData.setDescription(software.get().getDescription());
         }
 
+        if (softwareData.getType() == null) {
+            softwareData.setType(software.get().getType());
+        }
+
         softwareData.setIdSoftware(id);
         softwareDao.save(softwareData);
         return new ResponseEntity<>(software.get(), HttpStatus.OK);

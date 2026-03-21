@@ -1,5 +1,7 @@
 package com.mns.cda.suivimns.model;
 
+import com.mns.cda.suivimns.model.groups.OnCreate;
+import com.mns.cda.suivimns.model.groups.OnUpdate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -8,26 +10,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Version {
+public class CommunicationCanal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer idVersion;
+    protected Integer idCanal;
 
-    @Column(nullable = false, length = 63)
-    @NotBlank
-    @Length(min = 1, max = 63)
-    protected String versionNumber;
-
-
-    protected LocalDateTime publicationDate;
-
+    @Column(nullable = false, length = 127)
+    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
+    @Length(max = 127)
+    protected String designation;
 }

@@ -4,7 +4,6 @@ import com.mns.cda.suivimns.model.groups.OnCreate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +15,11 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Employee {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer idEmployee;
+    protected Integer idClient;
 
     @Column(nullable = false, length = 127)
     @NotBlank(groups = {OnCreate.class})
@@ -45,4 +44,8 @@ public class Employee {
     @NotBlank(groups = {OnCreate.class})
     @Length(max = 127)
     protected String password;
+
+    @Column(length = 3)
+    @Length(max = 3)
+    protected Byte importance;
 }

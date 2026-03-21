@@ -18,4 +18,11 @@ VALUES ('1.0', '2011-11-11 14:30:00', 1, 1),
 
 
 INSERT INTO organisation_type (designation)
-VALUES ('Particulier'), ('Professionel')
+VALUES ('Particulier'), ('Professionel');
+
+
+INSERT INTO organisation (name, domain, siret_number, id_organisation_type)
+VALUES ('Barbara Dupont', '', '', 1),
+       ('Barbara Dupont', '', '', 1),
+       ('Crédit Mutuel', 'Banque', '123456789AZERTY', 2);
+

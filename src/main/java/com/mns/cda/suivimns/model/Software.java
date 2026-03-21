@@ -25,6 +25,10 @@ public class Software {
     @Length(min = 1, max = 127)
     protected String name;
 
-    // Comment gérer les fields text ?
+    @Column(columnDefinition = "TEXT")
     protected String description;
+
+    @ManyToOne
+    @JoinColumn(name = "id_software_type")
+    protected SoftwareType type;
 }

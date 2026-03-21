@@ -31,8 +31,8 @@ public class Article {
     @UpdateTimestamp
     protected LocalDateTime modificationDate;
 
-    @Lob
-    @Column(nullable = false)
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     protected String content;
 }

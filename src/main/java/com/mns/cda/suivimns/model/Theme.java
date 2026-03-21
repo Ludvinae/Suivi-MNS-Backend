@@ -25,7 +25,7 @@ public class Theme {
     @Length(min = 3, max = 127)
     protected String designation;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     protected String description;
 
     @Length(max = 3)

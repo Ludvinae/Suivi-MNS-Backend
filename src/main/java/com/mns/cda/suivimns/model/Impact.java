@@ -27,7 +27,7 @@ public class Impact {
 
     protected Integer priorityFactor;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     protected String description;
 
 }

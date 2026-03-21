@@ -31,8 +31,7 @@ public class Ticket {
     @UpdateTimestamp
     protected LocalDateTime modificationDate;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotBlank(groups = {OnCreate.class})
     protected String description;
 

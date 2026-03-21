@@ -28,6 +28,6 @@ public class Urgency {
 
     protected Integer priorityFactor;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     protected String description;
 }

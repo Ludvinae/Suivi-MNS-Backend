@@ -43,4 +43,24 @@ public class Ticket {
 
     protected Integer finalPriority;
 
+    @ManyToOne
+    @JoinColumn(name = "id_communication_canal")
+    protected CommunicationCanal canal;
+
+    @ManyToOne
+    @JoinColumn(name = "id_version")
+    protected Version version;
+
+    @ManyToOne
+    @JoinColumn(name = "id_urgency")
+    protected Urgency urgency;
+
+    @ManyToOne
+    @JoinColumn(name = "id_impact")
+    protected Impact impact;
+
+    @ManyToOne
+    @JoinColumn(name = "id_client")
+    protected Client client;
+
 }

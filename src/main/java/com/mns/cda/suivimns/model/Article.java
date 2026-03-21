@@ -35,4 +35,12 @@ public class Article {
     @Column(nullable = false, columnDefinition = "TEXT")
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     protected String content;
+
+    @ManyToOne
+    @JoinColumn(name = "id_knowledge")
+    protected Knowledge knowledge;
+
+    @ManyToOne
+    @JoinColumn(name = "id_employee")
+    protected Employee employee;
 }

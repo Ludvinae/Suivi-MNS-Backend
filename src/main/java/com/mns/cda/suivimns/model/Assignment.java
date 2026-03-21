@@ -24,9 +24,21 @@ public class Assignment {
     protected Integer idAssignment;
 
     @CreationTimestamp
-    @Column(nullable = false)
-    @NotBlank(groups = {OnCreate.class})
+    //@Column(nullable = false)
+    //@NotBlank(groups = {OnCreate.class})
     protected LocalDateTime assigmentDate;
 
     protected LocalDateTime endDate;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ticket")
+    protected Ticket ticket;
+
+    @ManyToOne
+    @JoinColumn(name = "id_manager")
+    protected Employee manager;
+
+    @ManyToOne
+    @JoinColumn(name = "id_technician")
+    protected Employee technician;
 }

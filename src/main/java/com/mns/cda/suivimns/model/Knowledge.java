@@ -25,4 +25,8 @@ public class Knowledge {
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255)
     protected String subject;
+
+    @ManyToOne
+    @JoinColumn(name = "id_theme")
+    protected Theme theme;
 }

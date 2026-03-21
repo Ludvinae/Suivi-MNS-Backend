@@ -28,22 +28,61 @@ VALUES (1, '06 84 54 56 11', 'barbara.dupont99@gmail.com', 'Barbara', 'Dupont', 
 
 INSERT INTO role (rank, designation)
 VALUES ('', 'Manager'), ('', 'Directeur'),
-       ('1', 'Technicien'), ('2', 'Technicien');
+       ('1', 'Technicien'), ('2', 'Technicien'),
+       ('3', 'Technicien'), ('', 'Administrateur');
 
 INSERT INTO employee (phone_number, email, first_name, last_name, password, id_role)
 VALUES ('03 55 65 45 25', 'jeanvaljean@yorksoft.fr', 'Jean', 'Valjean', 'kGz4579c!AF5', 1),
-       ('03 55 65 78 99', 'sandraschmidt@yorksoft.fr', 'Sandra', 'Schmidt', 'sqqZ7A!784mK', 3);
+       ('03 55 65 78 99', 'sandraschmidt@yorksoft.fr', 'Sandra', 'Schmidt', 'sqqZ7A!784mK', 3),
+       ('03 55 65 77 11', 'damienmuller@yorksoft.fr', 'Damien', 'Muller', '78!dsQAE75Vcv', 5);
 
 INSERT INTO status (display_order, designation)
 VALUES (1, 'Nouveau'), (2, 'Attribué'), (3, 'En cours'),
        (4, 'En attente'), (5, 'Résolu'), (6, 'Clos');
 
-INSERT INTO ticket (call_duration, final_priority, initial_priority, close_date, modification_date, description)
-VALUES (null, null, 1, null, null, 'Ca marche pas'),
-       (1035, null, 1, null, null, 'Indisponibilité du service de sauvegarde en ligne');
+INSERT INTO communication_canal (designation)
+VALUES ('Téléphone'), ('Portail web'), ('Courriel');
+
+INSERT INTO urgency (priority_factor, designation, description)
+VALUES (1, 'Basse', 'Inconvenience d''utilisation'),
+       (2, 'Moyenne', 'Capacité d''utilisation restreinte'),
+       (3, 'Elevée', 'Arrêt de production'),
+       (4, 'Critique', 'Faille de sécurité');
+
+INSERT INTO impact (priority_factor, designation, description)
+VALUES  (1, 'Bas', 'Une seule personne concernée'),
+        (2, 'Moyen', 'Une équipe'),
+        (3, 'Elevé', 'Un département'),
+        (4, 'Critique', 'Toute l''entreprise');
+
+INSERT INTO ticket (call_duration, final_priority, initial_priority, close_date, modification_date, description, id_client, id_urgency, id_impact, id_version, id_communication_canal)
+VALUES (null, null, 1, null, null, 'Ca marche pas', 1, null, 1, 2, 2),
+       (1035, null, 1, null, null, 'Indisponibilité du service de sauvegarde en ligne', 3, 2, 2, 3, 1);
 
 INSERT INTO history (id_status, id_ticket)
 VALUES (1, 1), (1, 2), (2, 1), (4, 1);
+
+INSERT INTO comment (last_modification, content, id_ticket, id_client, id_employee)
+VALUES (null, 'Bonjour, pourriez vous préciser la nature de votre problème ?', 1, null, 2);
+
+INSERT INTO assignment (assigment_date, end_date, id_ticket, id_manager, id_technician)
+VALUES (NOW(), null, 1 , 1, 2);
+
+INSERT INTO theme (priority_factor, designation, description)
+VALUES (1, 'Erreur de manipulation', ''),
+       (3, 'Erreur système', ''),
+       (4, 'Problème réseau', ''),
+       (2, 'Temps de réponse', ''),
+       (3, 'Dysfonctionnement', ''),
+       (2, 'Bug', ''),
+       (1, 'Erreur de paramétrage', '');
+
+INSERT INTO knowledge (subject, id_theme)
+VALUES ('Service Cloud indisponible', 4);
+
+INSERT INTO article (creation_date, modification_date, content, id_knowledge, id_employee)
+VALUES ('2024-04-06', null, 'Explication sur la résolution des problemes de sauvegarde sur le Cloud', 1, 3)
+
 
 
 

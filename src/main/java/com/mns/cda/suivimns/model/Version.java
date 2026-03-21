@@ -30,4 +30,11 @@ public class Version {
 
     protected LocalDateTime publicationDate;
 
+    @ManyToOne
+    @JoinColumn(name = "id_version_type")
+    protected VersionType versionType;
+
+    @ManyToOne
+    @JoinColumn(name = "id_software")
+    protected Software software;
 }

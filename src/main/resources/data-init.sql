@@ -55,15 +55,15 @@ VALUES  (1, 'Bas', 'Une seule personne concernée'),
         (3, 'Elevé', 'Un département'),
         (4, 'Critique', 'Toute l''entreprise');
 
-INSERT INTO ticket (call_duration, final_priority, initial_priority, close_date, modification_date, description, id_client, id_urgency, id_impact, id_version, id_communication_canal)
-VALUES (null, null, 1, null, null, 'Ca marche pas', 1, null, 1, 2, 2),
-       (1035, null, 1, null, null, 'Indisponibilité du service de sauvegarde en ligne', 3, 2, 2, 3, 1);
+INSERT INTO ticket (open_date, call_duration, final_priority, initial_priority, close_date, modification_date, description, id_client, id_urgency, id_impact, id_version, id_communication_canal)
+VALUES (NOW(), null, null, 1, null, null, 'Ca marche pas', 1, null, 1, 2, 2),
+       (NOW(), 1035, null, 1, null, null, 'Indisponibilité du service de sauvegarde en ligne', 3, 2, 2, 3, 1);
 
 INSERT INTO history (id_status, id_ticket)
 VALUES (1, 1), (1, 2), (2, 1), (4, 1);
 
-INSERT INTO comment (last_modification, content, id_ticket, id_client, id_employee)
-VALUES (null, 'Bonjour, pourriez vous préciser la nature de votre problème ?', 1, null, 2);
+INSERT INTO comment (date_sent, last_modification, content, id_ticket, id_client, id_employee)
+VALUES (NOW(), null, 'Bonjour, pourriez vous préciser la nature de votre problème ?', 1, null, 2);
 
 INSERT INTO assignment (assigment_date, end_date, id_ticket, id_manager, id_technician)
 VALUES (NOW(), null, 1 , 1, 2);

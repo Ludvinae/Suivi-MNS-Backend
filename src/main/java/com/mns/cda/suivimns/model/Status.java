@@ -25,6 +25,5 @@ public class Status {
     @Length(min = 3, max = 63)
     protected String designation;
 
-    @Length(max = 3)
     protected Byte displayOrder;
 }

@@ -30,7 +30,6 @@ public class Theme {
     @Column(columnDefinition = "TEXT")
     protected String description;
 
-    @Length(max = 3)
     protected Byte priorityFactor;
 
     @ManyToMany

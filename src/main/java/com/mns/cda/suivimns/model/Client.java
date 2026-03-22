@@ -45,8 +45,6 @@ public class Client {
     @Length(max = 127)
     protected String password;
 
-    @Column(length = 3)
-    @Length(max = 3)
     protected Byte importance;
 
     @ManyToOne

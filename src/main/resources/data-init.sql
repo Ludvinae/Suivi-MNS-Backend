@@ -1,5 +1,5 @@
 INSERT INTO software_type (designation)
-VALUES ('Tableur'), ('Location'), ('paie');
+VALUES ('Tableur'), ('Location'), ('Gestion de paie');
 
 INSERT INTO software (name, description, id_software_type)
 VALUES ('Pexel', 'Le meilleur tableur du marché !', 1),
@@ -56,8 +56,8 @@ VALUES  (1, 'Bas', 'Une seule personne concernée'),
         (4, 'Critique', 'Toute l''entreprise');
 
 INSERT INTO ticket (open_date, call_duration, final_priority, initial_priority, close_date, modification_date, description, id_client, id_urgency, id_impact, id_version, id_communication_canal)
-VALUES (NOW(), null, null, 1, null, null, 'Ca marche pas', 1, null, 1, 2, 2),
-       (NOW(), 1035, null, 1, null, null, 'Indisponibilité du service de sauvegarde en ligne', 3, 2, 2, 3, 1);
+VALUES (NOW(), null, 1, 2, null, null, 'Ca marche pas', 1, 1, 1, 2, 2),
+       (NOW(), 1035, null, 80, null, null, 'Indisponibilité du service de sauvegarde en ligne', 3, 2, 2, 3, 1);
 
 INSERT INTO history (id_status, id_ticket)
 VALUES (1, 1), (1, 2), (2, 1), (4, 1);
@@ -75,14 +75,21 @@ VALUES (1, 'Erreur de manipulation', ''),
        (2, 'Temps de réponse', ''),
        (3, 'Dysfonctionnement', ''),
        (2, 'Bug', ''),
-       (1, 'Erreur de paramétrage', '');
+       (1, 'Erreur de paramétrage', ''),
+       (1, 'Autres cas', '');
 
 INSERT INTO knowledge (subject, id_theme)
 VALUES ('Service Cloud indisponible', 4);
 
 INSERT INTO article (creation_date, modification_date, content, id_knowledge, id_employee)
-VALUES ('2024-04-06', null, 'Explication sur la résolution des problemes de sauvegarde sur le Cloud', 1, 3)
+VALUES ('2024-04-06', null, 'Explication sur la résolution des problemes de sauvegarde sur le Cloud', 1, 3);
 
+INSERT INTO regroup (id_theme, id_ticket)
+VALUES (6, 1), (3, 2), (8, 1);
 
+/*
+INSERT INTO document (id_version, id_knowledge)
+VALUES (3, 1);
+*/
 
 

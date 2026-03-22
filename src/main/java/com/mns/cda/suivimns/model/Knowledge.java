@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,4 +31,10 @@ public class Knowledge {
     @ManyToOne
     @JoinColumn(name = "id_theme")
     protected Theme theme;
+
+    @ManyToMany
+    @JoinTable(name = "document",
+            joinColumns = @JoinColumn(name = "id_version"),
+            inverseJoinColumns = @JoinColumn(name = "id_knowledge"))
+    protected List<Knowledge> knowledgeList;
 }

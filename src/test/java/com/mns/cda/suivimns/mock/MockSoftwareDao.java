@@ -106,7 +106,9 @@ public class MockSoftwareDao implements SoftwareDao {
 
     @Override
     public Optional<Software> findById(Integer id) {
-        if (id == 1) return Optional.of(new Software(1, "TestSoft", "this is exclusively  for testing purpose", new SoftwareType(11, "mock type")));
+        if (id == 1) return Optional.of(
+                new Software(1, "TestSoft", "this is exclusively  for testing purpose",
+                        new SoftwareType(11, "mock type")));
 
         return Optional.empty();
     }

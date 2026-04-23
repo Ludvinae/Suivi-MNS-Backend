@@ -1,12 +1,12 @@
 package com.mns.cda.suivimns.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mns.cda.suivimns.controller.ClassificationController;
-import com.mns.cda.suivimns.model.Classification;
-import com.mns.cda.suivimns.model.Theme;
+import com.mns.cda.suivimns.controller.HistoryController;
+import com.mns.cda.suivimns.model.History;
+import com.mns.cda.suivimns.model.Knowledge;
+import com.mns.cda.suivimns.model.Status;
 import com.mns.cda.suivimns.model.Ticket;
-import com.mns.cda.suivimns.model.keys.ClassificationKey;
-import com.mns.cda.suivimns.service.inter.iClassificationService;
+import com.mns.cda.suivimns.service.inter.iHistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = ClassificationController.class)
-class ClassificationControllerUnitTest {
+@WebMvcTest(controllers = HistoryController.class)
+class HistoryControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private iClassificationService classificationService;
+    private iHistoryService historyService;
 
     @MockBean
     private org.springframework.data.jpa.mapping.JpaMetamodelMappingContext jpaMetamodelMappingContext;
@@ -38,22 +38,21 @@ class ClassificationControllerUnitTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Classification classification;
+    private History history;
 
     @BeforeEach
     void setUp() {
-        classification = new Classification();
-        classification.setId(new ClassificationKey(1, 2));
+        history = new History();
+        history.setIdHistory(1);
 
         // ⚠️ Adapter si @NotNull sur d'autres champs
         Ticket ticket = new Ticket();
         ticket.setIdTicket(1);
-        classification.setTicket(ticket);
+        history.setTicket(ticket);
 
-        Theme theme = new Theme();
-        theme.setIdTheme(2);
-        classification.setTheme(theme);
-
+        Status status = new Status();
+        status.setIdStatus(1);
+        history.setStatus(status);
     }
 
     // =========================
@@ -62,13 +61,12 @@ class ClassificationControllerUnitTest {
     @Test
     void shouldReturnAll() throws Exception {
 
-        when(classificationService.findAll()).thenReturn(List.of(classification));
+        when(historyService.findAll()).thenReturn(List.of(history));
 
-        mockMvc.perform(get("/classification/list"))
+        mockMvc.perform(get("/history/list"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id.idTicket").value(1))
-                .andExpect(jsonPath("$[0].id.idTheme").value(2));
+                .andExpect(jsonPath("$[0].idHistory").value(1));
     }
 
     // =========================
@@ -77,13 +75,12 @@ class ClassificationControllerUnitTest {
     @Test
     void shouldReturnById() throws Exception {
 
-        when(classificationService.findById(any(ClassificationKey.class))).thenReturn(Optional.of(classification));
+        when(historyService.findById(1)).thenReturn(Optional.of(history));
 
-        mockMvc.perform(get("/classification/1/2"))
+        mockMvc.perform(get("/history/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id.idTicket").value(1))
-                .andExpect(jsonPath("$.id.idTheme").value(2));
+                .andExpect(jsonPath("$.idHistory").value(1));
     }
 
     // =========================
@@ -92,26 +89,10 @@ class ClassificationControllerUnitTest {
     @Test
     void shouldReturn404WhenNotFound() throws Exception {
 
-        when(classificationService.findById(new ClassificationKey(1, 2))).thenReturn(Optional.empty());
+        when(historyService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/classification/1/2"))
+        mockMvc.perform(get("/history/1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-
-    // =========================
-    // CREATE
-    // =========================
-    @Test
-    void shouldCreate() throws Exception {
-
-        when(classificationService.save(any(Classification.class))).thenReturn(classification);
-
-        mockMvc.perform(post("/classification")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(classification)))
-                .andDo(print())
-                .andExpect(status().isCreated());
-    }
-
 }

@@ -1,10 +1,11 @@
 package com.mns.cda.suivimns.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mns.cda.suivimns.controller.SoftwareController;
-import com.mns.cda.suivimns.dto.SoftwareDto;
-import com.mns.cda.suivimns.model.Software;
-import com.mns.cda.suivimns.service.inter.iSoftwareService;
+import com.mns.cda.suivimns.controller.AppUserController;
+import com.mns.cda.suivimns.dto.AppUserDto;
+import com.mns.cda.suivimns.model.AppUser;
+import com.mns.cda.suivimns.model.Knowledge;
+import com.mns.cda.suivimns.service.inter.iAppUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = SoftwareController.class)
-class SoftwareControllerUnitTest {
+@WebMvcTest(controllers = AppUserController.class)
+class AppUserControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private iSoftwareService softwareService;
+    private iAppUserService appUserService;
 
     @MockBean
     private org.springframework.data.jpa.mapping.JpaMetamodelMappingContext jpaMetamodelMappingContext;
@@ -36,13 +37,13 @@ class SoftwareControllerUnitTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Software software;
+    private AppUser appUser;
 
     @BeforeEach
     void setUp() {
-        software = new Software();
-        software.setIdSoftware(1);
-        software.setName("TestSoft");
+        appUser = new AppUser();
+        appUser.setIdAppUser(1);
+        appUser.setPassword("password");
 
         // ⚠️ Adapter si @NotNull sur d'autres champs
 
@@ -54,13 +55,13 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldReturnAll() throws Exception {
 
-        when(softwareService.findAll()).thenReturn(List.of(software));
+        when(appUserService.findAll()).thenReturn(List.of(appUser));
 
-        mockMvc.perform(get("/software/list"))
+        mockMvc.perform(get("/user/list"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].idSoftware").value(1))
-                .andExpect(jsonPath("$[0].name").value("TestSoft"));
+                .andExpect(jsonPath("$[0].idAppUser").value(1))
+                .andExpect(jsonPath("$[0].password").value("password"));
     }
 
     // =========================
@@ -69,13 +70,13 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldReturnById() throws Exception {
 
-        when(softwareService.findById(1)).thenReturn(Optional.of(software));
+        when(appUserService.findById(1)).thenReturn(Optional.of(appUser));
 
-        mockMvc.perform(get("/software/1"))
+        mockMvc.perform(get("/user/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idSoftware").value(1))
-                .andExpect(jsonPath("$.name").value("TestSoft"));
+                .andExpect(jsonPath("$.idAppUser").value(1))
+                .andExpect(jsonPath("$.password").value("password"));
     }
 
     // =========================
@@ -84,9 +85,9 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldReturn404WhenNotFound() throws Exception {
 
-        when(softwareService.findById(1)).thenReturn(Optional.empty());
+        when(appUserService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/software/1"))
+        mockMvc.perform(get("/user/1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -97,16 +98,14 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldCreate() throws Exception {
 
-        SoftwareDto softwareDto = new SoftwareDto("TestSoft","", null, null);
+        when(appUserService.save(any(AppUser.class))).thenReturn(appUser);
 
-        when(softwareService.createSoftware(any(SoftwareDto.class))).thenReturn(software);
-
-        mockMvc.perform(post("/software")
+        mockMvc.perform(post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(softwareDto)))
+                        .content(objectMapper.writeValueAsString(appUser)))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("TestSoft"));
+                .andExpect(jsonPath("$.password").value("password"));
     }
 
     // =========================
@@ -115,13 +114,13 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldDelete() throws Exception {
 
-        when(softwareService.findById(1)).thenReturn(Optional.of(software));
+        when(appUserService.findById(1)).thenReturn(Optional.of(appUser));
 
-        mockMvc.perform(delete("/software/1"))
+        mockMvc.perform(delete("/user/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(softwareService).delete(software);
+        verify(appUserService).delete(appUser);
     }
 
     // =========================
@@ -130,9 +129,9 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldReturn404WhenDeleteNotFound() throws Exception {
 
-        when(softwareService.findById(1)).thenReturn(Optional.empty());
+        when(appUserService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete("/software/1"))
+        mockMvc.perform(delete("/user/1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -143,14 +142,15 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldUpdate() throws Exception {
 
-        when(softwareService.update(any(Software.class), eq(1))).thenReturn(software);
+        AppUserDto userDto = new AppUserDto("Jean", "Valjean", "valjean@test.com", "2222222");
 
-        mockMvc.perform(put("/software/1")
+        when(appUserService.update(any(AppUserDto.class), eq(1))).thenReturn(appUser);
+
+        mockMvc.perform(patch("/user/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(software)))
+                        .content(objectMapper.writeValueAsString(userDto)))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("TestSoft"));
+                .andExpect(status().isOk());
     }
 
     // =========================
@@ -159,12 +159,14 @@ class SoftwareControllerUnitTest {
     @Test
     void shouldReturn404WhenUpdateFails() throws Exception {
 
-        when(softwareService.update(any(Software.class), eq(1)))
-                .thenThrow(new iSoftwareService.SoftwareNotFoundException());
+        AppUserDto userDto = new AppUserDto("Jean", "Valjean", "valjean@test.com", "2222222");
 
-        mockMvc.perform(put("/software/1")
+        when(appUserService.update(any(AppUserDto.class), eq(1)))
+                .thenThrow(new iAppUserService.AppUserNotFoundException());
+
+        mockMvc.perform(patch("/user/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(software)))
+                        .content(objectMapper.writeValueAsString(userDto)))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

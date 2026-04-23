@@ -1,10 +1,11 @@
 package com.mns.cda.suivimns.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mns.cda.suivimns.controller.ImpactController;
-import com.mns.cda.suivimns.model.Impact;
+import com.mns.cda.suivimns.controller.LicenseController;
+import com.mns.cda.suivimns.model.License;
 import com.mns.cda.suivimns.model.Knowledge;
-import com.mns.cda.suivimns.service.inter.iImpactService;
+import com.mns.cda.suivimns.model.Software;
+import com.mns.cda.suivimns.service.inter.iLicenseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = ImpactController.class)
-class ImpactControllerUnitTest {
+@WebMvcTest(controllers = LicenseController.class)
+class LicenseControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private iImpactService impactService;
+    private iLicenseService licenseService;
 
     @MockBean
     private org.springframework.data.jpa.mapping.JpaMetamodelMappingContext jpaMetamodelMappingContext;
@@ -36,17 +37,19 @@ class ImpactControllerUnitTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Impact impact;
+    private License license;
 
     @BeforeEach
     void setUp() {
-        impact = new Impact();
-        impact.setIdImpact(1);
-        impact.setDesignation("Test designation");
-        impact.setPriorityFactor((byte) 1);
+        license = new License();
+        license.setIdLicense(1);
+        license.setLicenseNumber("Test number");
+        license.setUserCount(10);
 
         // ⚠️ Adapter si @NotNull sur d'autres champs
-
+        Software software = new Software();
+        software.setIdSoftware(1);
+        license.setSoftware(software);
     }
 
     // =========================
@@ -55,14 +58,14 @@ class ImpactControllerUnitTest {
     @Test
     void shouldReturnAll() throws Exception {
 
-        when(impactService.findAll()).thenReturn(List.of(impact));
+        when(licenseService.findAll()).thenReturn(List.of(license));
 
-        mockMvc.perform(get("/impact/list"))
+        mockMvc.perform(get("/license/list"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].idImpact").value(1))
-                .andExpect(jsonPath("$[0].designation").value("Test designation"))
-                .andExpect(jsonPath("$[0].priorityFactor").value(1));
+                .andExpect(jsonPath("$[0].idLicense").value(1))
+                .andExpect(jsonPath("$[0].licenseNumber").value("Test number"))
+                .andExpect(jsonPath("$[0].userCount").value(10));
     }
 
     // =========================
@@ -71,14 +74,14 @@ class ImpactControllerUnitTest {
     @Test
     void shouldReturnById() throws Exception {
 
-        when(impactService.findById(1)).thenReturn(Optional.of(impact));
+        when(licenseService.findById(1)).thenReturn(Optional.of(license));
 
-        mockMvc.perform(get("/impact/1"))
+        mockMvc.perform(get("/license/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idImpact").value(1))
-                .andExpect(jsonPath("$.designation").value("Test designation"))
-                .andExpect(jsonPath("$.priorityFactor").value(1));
+                .andExpect(jsonPath("$.idLicense").value(1))
+                .andExpect(jsonPath("$.licenseNumber").value("Test number"))
+                .andExpect(jsonPath("$.userCount").value(10));
     }
 
     // =========================
@@ -87,9 +90,9 @@ class ImpactControllerUnitTest {
     @Test
     void shouldReturn404WhenNotFound() throws Exception {
 
-        when(impactService.findById(1)).thenReturn(Optional.empty());
+        when(licenseService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/impact/1"))
+        mockMvc.perform(get("/license/1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -100,15 +103,15 @@ class ImpactControllerUnitTest {
     @Test
     void shouldCreate() throws Exception {
 
-        when(impactService.save(any(Impact.class))).thenReturn(impact);
+        when(licenseService.save(any(License.class))).thenReturn(license);
 
-        mockMvc.perform(post("/impact")
+        mockMvc.perform(post("/license")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(impact)))
+                        .content(objectMapper.writeValueAsString(license)))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.designation").value("Test designation"))
-                .andExpect(jsonPath("$.priorityFactor").value(1));
+                .andExpect(jsonPath("$.licenseNumber").value("Test number"))
+                .andExpect(jsonPath("$.userCount").value(10));
     }
 
     // =========================
@@ -117,13 +120,13 @@ class ImpactControllerUnitTest {
     @Test
     void shouldDelete() throws Exception {
 
-        when(impactService.findById(1)).thenReturn(Optional.of(impact));
+        when(licenseService.findById(1)).thenReturn(Optional.of(license));
 
-        mockMvc.perform(delete("/impact/1"))
+        mockMvc.perform(delete("/license/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(impactService).delete(impact);
+        verify(licenseService).delete(license);
     }
 
     // =========================
@@ -132,9 +135,9 @@ class ImpactControllerUnitTest {
     @Test
     void shouldReturn404WhenDeleteNotFound() throws Exception {
 
-        when(impactService.findById(1)).thenReturn(Optional.empty());
+        when(licenseService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete("/impact/1"))
+        mockMvc.perform(delete("/license/1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -145,15 +148,15 @@ class ImpactControllerUnitTest {
     @Test
     void shouldUpdate() throws Exception {
 
-        when(impactService.update(any(Impact.class), eq(1))).thenReturn(impact);
+        when(licenseService.update(any(License.class), eq(1))).thenReturn(license);
 
-        mockMvc.perform(put("/impact/1")
+        mockMvc.perform(put("/license/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(impact)))
+                        .content(objectMapper.writeValueAsString(license)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.designation").value("Test designation"))
-                .andExpect(jsonPath("$.priorityFactor").value(1));
+                .andExpect(jsonPath("$.licenseNumber").value("Test number"))
+                .andExpect(jsonPath("$.userCount").value(10));
     }
 
     // =========================
@@ -162,12 +165,12 @@ class ImpactControllerUnitTest {
     @Test
     void shouldReturn404WhenUpdateFails() throws Exception {
 
-        when(impactService.update(any(Impact.class), eq(1)))
-                .thenThrow(new iImpactService.ImpactNotFoundException());
+        when(licenseService.update(any(License.class), eq(1)))
+                .thenThrow(new iLicenseService.LicenseNotFoundException());
 
-        mockMvc.perform(put("/impact/1")
+        mockMvc.perform(put("/license/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(impact)))
+                        .content(objectMapper.writeValueAsString(license)))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

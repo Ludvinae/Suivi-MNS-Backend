@@ -1,14 +1,14 @@
 package com.mns.cda.suivimns.dao;
 
+import com.mns.cda.suivimns.model.Admin;
 import com.mns.cda.suivimns.model.AppUser;
-import com.mns.cda.suivimns.model.Manager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ManagerDao extends JpaRepository<Manager, Integer> {
+public interface AdminDao extends JpaRepository<Admin, Integer> {
 
-    Optional<Manager> findByEmail(String email);
+    Optional<Admin> findByEmail(String email);
 }
